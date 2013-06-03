@@ -33,14 +33,23 @@ describe Signature::Strategy::Header::Request do
 	end
 
 	describe "::parse_headers" do
-		it "returns auth hash" do
-			hash = Signature::Strategy::Header::Request.parse_headers headers
-			hash.should == {
-				"auth_key" => auth_key, 
-				"auth_signature" => auth_signature, 
-				"auth_timestamp" => auth_timestamp, 
-				"auth_version" => auth_version
-			}
+		context "when auth headers exist" do
+			it "returns auth hash" do
+				hash = Signature::Strategy::Header::Request.parse_headers headers
+				hash.should == {
+					"auth_key" => auth_key, 
+					"auth_signature" => auth_signature, 
+					"auth_timestamp" => auth_timestamp, 
+					"auth_version" => auth_version
+				}
+			end
+		end
+
+		context "when header are empty" do
+			it "returns empty hash" do
+				hash = Signature::Strategy::Header::Request.parse_headers {}
+				hash.should == {}
+			end
 		end
 	end
 end

@@ -14,8 +14,9 @@ module Signature
 					end
 				end
 
-				def initialize method, path, query, headers={}
-					headers ||= {}
+				def initialize method, path, query={}, headers={}
+					raise ArgumentError, "Expected string" unless path.kind_of?(String)
+
 					auth_hash = self.class.parse_headers(headers)
 					super(method, path, query.merge(auth_hash))
 				end
