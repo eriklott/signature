@@ -14,12 +14,12 @@ module Signature
 					end
 				end
 
-				def initialize(method, path, query, headers)
+				def initialize method, path, query, headers={}
 					auth_hash = self.class.parse_headers(headers)
 					super(method, path, query.merge(auth_hash))
 				end
 
-				def sign(token)
+				def sign token
 					auth_hash = super(token)
 					auth_hash.inject({}) do |memo, (k,v)|
 						header_key = "#{ AUTH_HEADER_PREFIX }#{ k.to_s.split('_').map(&:capitalize).join('-') }"
