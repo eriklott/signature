@@ -15,6 +15,7 @@ module Signature
 				end
 
 				def initialize method, path, query, headers={}
+					headers ||= {}
 					auth_hash = self.class.parse_headers(headers)
 					super(method, path, query.merge(auth_hash))
 				end
