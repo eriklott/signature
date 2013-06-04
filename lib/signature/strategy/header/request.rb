@@ -3,12 +3,12 @@ module Signature
 		module Header
 			class Request < ::Signature::Request
 				AUTH_HEADER_PREFIX = "X-GY-"
-				AUTH_HEADER_REGEX = /^#{AUTH_HEADER_PREFIX.downcase}(auth-.+)$/i
+				RACK_AUTH_HEADER_REGEX = /^HTTP_X_GY_(AUTH_.+)$/
 
 				def self.parse_headers headers={}
 					headers.inject({}) do |memo,(k,v)|
-						if match = k.match(AUTH_HEADER_REGEX)
-							memo[match[1].downcase.gsub('-', '_')] = v
+						if match = k.match(RACK_AUTH_HEADER_REGEX)
+							memo[match[1].downcase] = v
 						end 
 						memo
 					end
